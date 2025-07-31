@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A fun multiplication quiz app to test your math skills!" />
+  <title>Multiplication Quiz WebApp</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #dff9fb, #c7ecee);
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    h1::before {
+      content: "🧠 ";
+    }
+
+    h1 {
+      font-size: 25px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: green;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: -10px 0 20px;
+    }
+
+    #form {
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+
+    #score {
+      font-size: 18px;
+      text-align: right;
+      font-weight: 700;
+      color: green;
+    }
+
+    #question {
+      color: green;
+      font-weight: 700;
+      font-size: 25px;
+    }
+
+    #inp {
+      color: green;
+      border: 3px solid green;
+      border-radius: 5px;
+      padding: 15px 0;
+      margin: 10px 0px;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      outline: none;
+    }
+
+    #inp::placeholder {
+      color: green;
+    }
+
+    #btn {
+      background-color: green;
+      outline: none;
+      border: none;
+      border-radius: 5px;
+      padding: 15px 0;
+      margin: 10px 0px;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 18px;
+      font-weight: 700;
+      text-align: center;
+      color: white;
+      letter-spacing: 1px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    #btn:hover {
+      background-color: darkgreen;
+      transform: scale(1.05);
+    }
+
+    #inp:focus {
+      border-color: darkgreen;
+      box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
+    }
+
+    #feedback {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Multiplication Quiz</h1>
+    <h3>Test Your Multiplication Skills!</h3>
+    <h3><b>Multiplication Quiz App</b></h3>
+    <form id="form" role="form" aria-label="Multiplication Quiz Form">
+      <p id="score">score : 0</p>
+      <h1 id="question">What is X Multiply of X?</h1>
+      <input type="number" id="inp" placeholder="Enter Your Answer" autofocus autocomplete="off" />
+      <button id="btn" type="submit">Submit</button>
+      <p id="feedback"></p>
+    </form>
+  </div>
+
+  <script>
+    const questionElement = document.getElementById("question");
+    const form = document.getElementById("form");
+    const input = document.getElementById("inp");
+    const scoreElement = document.getElementById("score");
+    const feedback = document.getElementById("feedback");
+
+    let num1 = Math.floor(Math.random() * 10);
+    let num2 = Math.floor(Math.random() * 10);
+    let correctAnswer = num1 * num2;
+
+    questionElement.innerText = `What is ${num1} Multiply by ${num2}?`;
+
+    let score = Number(localStorage.getItem("score"));
+    if (!score) {
+      score = 0;
+    }
+    scoreElement.textContent = `score : ${score}`;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      let userAnswer = +input.value;
+      if (correctAnswer === userAnswer) {
+        score++;
+        feedback.textContent = "🎉 Correct!";
+        feedback.style.color = "green";
+      } else {
+        score--;
+        feedback.textContent = `❌ Wrong! The correct answer was ${correctAnswer}`;
+        feedback.style.color = "red";
+      }
+      updateScore();
+      setTimeout(() => {
+        location.reload();
+      }, 1500);
+    });
+
+    function updateScore() {
+      localStorage.setItem("score", String(score));
+    }
+
+    // To reset the score, uncomment the line below:
+    // localStorage.removeItem("score");
+  </script>
+</body>
+
+</html>
